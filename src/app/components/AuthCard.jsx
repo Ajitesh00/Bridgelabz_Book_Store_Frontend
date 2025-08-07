@@ -1,8 +1,12 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Button, Card, CardContent, TextField, Typography, Box, Snackbar, Alert } from '@mui/material';
+import { Button, Card, CardContent, TextField, Typography, Box, Snackbar, Alert, InputAdornment, IconButton } from '@mui/material';
 import { loginUser,registerUser } from '../services/user.service';
+
+// ICON IMPORTS
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const AuthCard = ({ role }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -17,6 +21,8 @@ const AuthCard = ({ role }) => {
     message: '',
     severity: 'success'
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleViewChange = (view) => {
     setIsLogin(view === 'login');
@@ -65,13 +71,16 @@ const AuthCard = ({ role }) => {
         if (isLogin) {
         const res = await loginUser(role, { email, password });
         const isSuccess = res.data.code >= 200 && res.data.code < 300;
-
+        
         setSnackbar({
             open: true,
             message: res.data.message || 'Login successful',
             severity: isSuccess ? 'success' : 'error',
         });
         if (isSuccess) {
+            const token = res?.data?.data?.token; 
+            localStorage.setItem('token', token);
+
             // Redirect to /dashboard after a short delay so the snackbar is visible
             setTimeout(() => {
             window.location.href = '/dashboard';
@@ -93,6 +102,7 @@ const AuthCard = ({ role }) => {
             severity: isSuccess ? 'success' : 'error',
         });
         }
+
     } catch (err) {
         setSnackbar({
         open: true,
@@ -218,11 +228,25 @@ const AuthCard = ({ role }) => {
             <TextField
                 fullWidth
                 label="Password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => e.key==='Enter' && handleSubmit()}
                 variant="outlined"
                 margin="normal"
+                InputProps={{
+                    endAdornment: (
+                    <InputAdornment position="end">
+                        <IconButton
+                        onClick={() => setShowPassword(prev => !prev)}
+                        edge="end"
+                        aria-label="toggle password visibility"
+                    >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                    </InputAdornment>
+                    )
+                }}
             />
             {!isLogin && (
                 <TextField

@@ -1,0 +1,217 @@
+"use client";
+
+import React, { useEffect, useState } from 'react';
+import { Box, Button, Chip, Typography, TextareaAutosize } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import { useParams } from 'next/navigation';
+import { fetchBookById } from '../../services/book.service';
+import Header from '../../components/Header';
+
+// BookPage component to display details of a single book
+const BookPage = () => {
+  // State to hold book data
+  const [book, setBook] = useState(null);
+  // State to track button click states
+  const [isAddedToBag, setIsAddedToBag] = useState(false);
+  const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
+  // Get book ID from URL parameters
+  const params = useParams();
+  const bookId = params.id;
+
+  // Fetch book data on component mount without error handling
+  useEffect(() => {
+    const getBook = async () => {
+      const bookData = await fetchBookById(bookId);
+      setBook(bookData); // Set book data directly
+    };
+    getBook();
+  }, [bookId]);
+
+  // Display loading state if book data is not yet fetched
+  if (!book) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+        <Typography variant="h6">Loading...</Typography>
+      </Box>
+    );
+  }
+
+  return (
+    <>
+      <Header />
+      <Box sx={{ mt: 3.5, ml: 33.5, display: 'flex', justifyContent: 'start' }}>
+        <Typography>
+          <Typography variant="body1" component="span" sx={{ color: 'gray' }}>Home/</Typography>
+          <Typography variant="body2" component="span" fontWeight="bold">{book.bookName}</Typography>
+        </Typography>
+      </Box>
+      <Box sx={{ display: 'flex', gap: 4, p: 4, maxWidth: '1200px', mx: 'auto', mt: -1 }}>
+        {/* Left Section: Book Image and Buttons */}
+        <Box sx={{ flex: '0 0 40%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+          {/* Book Image */}
+          <Box sx={{ border: '2px solid #ccc', borderRadius: 2, overflow: 'hidden', width: '100%', maxWidth: '310px', position: 'relative' }}>
+            <img
+              src={book.bookImage}
+              alt={book.bookName}
+              style={{ width: '100%', maxWidth: '310px', height: '450px' }}
+            />
+            {book.quantity === 0 && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '100%',
+                  bgcolor: '#00000066',
+                  color: 'white',
+                  textAlign: 'center',
+                  py: 1,
+                  px: 2,
+                  borderRadius: 1,
+                }}
+              >
+                <Typography variant="body1" fontWeight="bold">
+                  Out of Stock
+                </Typography>
+                </Box>
+            )}
+          </Box>
+          {/* Buttons with toggleable styles and text */}
+          <Box sx={{ display: 'flex', gap: 2, width: '70%', height: '7%', mt: 2.5 }}>
+            <Button
+              variant="contained"
+              startIcon={<ShoppingBagIcon />}
+              sx={{
+                bgcolor: isAddedToBag ? 'white' : '#8B0000',
+                color: isAddedToBag ? '#8B0000' : 'white',
+                flex: 1,
+                '&:hover': { bgcolor: isAddedToBag ? '#f5f5f5' : '#6B0000' },
+              }}
+              onClick={() => setIsAddedToBag(true)}
+            >
+              {isAddedToBag ? 'Added✓' : 'Add to Bag'}
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<FavoriteIcon />}
+              sx={{
+                bgcolor: isAddedToWishlist ? 'white' : '#000000',
+                color: isAddedToWishlist ? '#000000' : 'white',
+                flex: 1,
+                '&:hover': { bgcolor: isAddedToWishlist ? '#f5f5f5' : '#333333' },
+              }}
+              onClick={() => setIsAddedToWishlist(true)}
+            >
+              {isAddedToWishlist ? 'Added✓' : 'Wishlist'}
+            </Button>
+          </Box>
+        </Box>
+
+        {/* Right Section: Book Details */}
+        <Box sx={{ flex: '1', display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {/* Book Name */}
+          <Typography variant="h4" fontWeight="bold">
+            {book.bookName}
+          </Typography>
+
+          {/* Author */}
+          <Typography variant="subtitle1" color="text.secondary" sx={{ mt: -2 }}>
+            by: {book.author}
+          </Typography>
+
+          {/* Rating and Quantity */}
+          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', mt: -1 }}>
+            <Chip label="4.5 ★" sx={{ bgcolor: 'green', color: 'white', borderRadius: 1 }} />
+            <Typography variant="body2" color="text.secondary">
+              ({book.quantity})
+            </Typography>
+          </Box>
+
+          {/* Price and Discount Price */}
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            <Typography variant="h5" fontWeight="bold">
+              Rs. {book.discountPrice}
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
+              Rs. {book.price}
+            </Typography>
+          </Box>
+
+          {/* Divider */}
+          <Box sx={{ height: '1px', backgroundColor: '#ccc' }} />
+
+          {/* Book Details Heading */}
+          <Typography variant="h6" fontWeight="normal" sx={{ mt: 0 }}>
+            Book Details
+          </Typography>
+
+          {/* Book Description */}
+          <Typography variant="body2" color='gray' sx={{ mb: 0 }}>
+            {book.description}
+          </Typography>
+
+          {/* Divider */}
+          <Box sx={{ height: '1px', backgroundColor: '#ccc' }} />
+
+          {/* Customer Rating Text Area (Static) */}
+          <Typography variant="h6" fontWeight="normal">
+            Customer Feedback
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2, bgcolor: '#ccc', py: 3, px: 2 }}>
+            <TextareaAutosize
+              minRows={4}
+              placeholder="Write your review..."
+              style={{
+                width: '100%',
+                padding: '8px',
+                borderRadius: '4px',
+                border: '1px solid #ccc',
+                resize: 'vertical',
+                background: 'white',
+              }}
+            />
+            <Button variant="contained" sx={{ bgcolor: '#1976d2', alignSelf: 'flex-end' }}>
+              Submit
+            </Button>
+          </Box>
+
+          {/* Divider */}
+          <Box sx={{ height: '1px', backgroundColor: '#ccc', mt: 3 }} />
+
+          {/* Static Customer Reviews */}
+          <Box>
+            <Box sx={{ mt: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <img src={'/profile3.png'} style={{ height: '35px', width: '35px' }}></img>
+                <Typography variant="h5" fontWeight="bold">
+                  John Doe
+                </Typography>
+              </Box>
+              <img src={'/5stars.png'} style={{ height: '50px', width: '150px', marginLeft: '42px' }}></img>
+              <Typography variant="body1" color='gray' sx={{ ml: '52px' }}>
+                Great book! Really enjoyed the storyline and characters.
+              </Typography>
+            </Box>
+
+            <Box sx={{ mt: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <img src={'/profile2.png'} style={{ height: '35px', width: '35px' }}></img>
+                <Typography variant="h5" fontWeight="bold">
+                  Jane Smith
+                </Typography>
+              </Box>
+              <img src={'/5stars.png'} style={{ height: '50px', width: '150px', marginLeft: '42px' }}></img>
+              <Typography variant="body1" color='gray' sx={{ ml: '52px' }}>
+                A must-read for fans of the genre. Highly recommend!
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </>
+  );
+};
+
+export default BookPage;
