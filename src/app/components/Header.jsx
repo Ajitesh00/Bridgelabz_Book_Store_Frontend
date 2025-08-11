@@ -8,6 +8,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import Search from '@mui/icons-material/Search';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+// Header component for navigation and search
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
@@ -19,6 +20,7 @@ export default function Header() {
     setSearchQuery(search);
   }, [searchParams]);
 
+  // Handle search action
   const handleSearch = () => {
     const trimmed = searchQuery.trim();
     const params = new URLSearchParams(searchParams.toString());
@@ -31,6 +33,16 @@ export default function Header() {
     }
 
     router.push(`/dashboard?${params.toString()}`);
+  };
+
+  // Navigate to cart page
+  const handleCartClick = () => {
+    router.push('/cart');
+  };
+
+  // Navigate to wishlist page
+  const handleWishlistClick = () => {
+    router.push('/wishlist');
   };
 
   return (
@@ -79,20 +91,20 @@ export default function Header() {
         {/* Right: Icons */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Tooltip title="Profile">
-                <IconButton color="inherit">
-                  <AccountCircleIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Cart">
-                <IconButton color="inherit">
-                  <ShoppingCartIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Wishlist">
-                <IconButton color="inherit">
-                  <FavoriteIcon />
-                </IconButton>
-              </Tooltip>
+            <IconButton color="inherit">
+              <AccountCircleIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Cart">
+            <IconButton color="inherit" onClick={handleCartClick}>
+              <ShoppingCartIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Wishlist">
+            <IconButton color="inherit" onClick={handleWishlistClick}>
+              <FavoriteIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Toolbar>
     </AppBar>

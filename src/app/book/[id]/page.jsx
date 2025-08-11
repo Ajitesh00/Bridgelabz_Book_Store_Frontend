@@ -6,6 +6,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import { useParams } from 'next/navigation';
 import { fetchBookById } from '../../services/book.service';
+import { addToCart, getCart } from '../../services/cart.service';
+import { addToWishlist, getWishlist } from '../../services/wishlist.service';
 import Header from '../../components/Header';
 
 // BookPage component to display details of a single book
@@ -19,14 +21,47 @@ const BookPage = () => {
   const params = useParams();
   const bookId = params.id;
 
-  // Fetch book data on component mount without error handling
+  // Fetch book data and check cart/wishlist on component mount
   useEffect(() => {
-    const getBook = async () => {
+    const fetchData = async () => {
+      // Fetch book data
       const bookData = await fetchBookById(bookId);
-      setBook(bookData); // Set book data directly
+      setBook(bookData);
+
+      // Check if book is already in cart
+      const cartItems = await getCart();
+      const isInCart = cartItems.some(item => item.bookId === bookId);
+      setIsAddedToBag(isInCart);
+
+      // Check if book is already in wishlist
+      const wishlistItems = await getWishlist();
+      const isInWishlist = wishlistItems.some(item => item.bookId === bookId);
+      setIsAddedToWishlist(isInWishlist);
     };
-    getBook();
+    fetchData();
   }, [bookId]);
+
+  // Handle Add to Bag button click
+  const handleAddToBag = async () => {
+    if (isAddedToBag) return; // Prevent adding if already in cart
+    try {
+      await addToCart(bookId);
+      setIsAddedToBag(true);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
+  };
+
+  // Handle Add to Wishlist button click
+  const handleAddToWishlist = async () => {
+    if (isAddedToWishlist) return; // Prevent adding if already in wishlist
+    try {
+      await addToWishlist(bookId);
+      setIsAddedToWishlist(true);
+    } catch (error) {
+      console.error('Error adding to wishlist:', error);
+    }
+  };
 
   // Display loading state if book data is not yet fetched
   if (!book) {
@@ -49,12 +84,12 @@ const BookPage = () => {
       <Box sx={{ display: 'flex', gap: 4, p: 4, maxWidth: '1200px', mx: 'auto', mt: -1 }}>
         {/* Left Section: Book Image and Buttons */}
         <Box sx={{ flex: '0 0 40%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-          {/* Book Image */}
-          <Box sx={{ border: '2px solid #ccc', borderRadius: 2, overflow: 'hidden', width: '100%', maxWidth: '310px', position: 'relative' }}>
+          {/* Book Image with Out of Stock overlay */}
+          <Box sx={{ border: '2px solid #ccc', borderRadius: 2, overflow: 'hidden', width: '310px', maxWidth: '310px', position: 'relative', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}>
             <img
               src={book.bookImage}
               alt={book.bookName}
-              style={{ width: '100%', maxWidth: '310px', height: '450px' }}
+              style={{ width: '100%', height: '450px', display: 'block' }}
             />
             {book.quantity === 0 && (
               <Box
@@ -64,6 +99,7 @@ const BookPage = () => {
                   left: '50%',
                   transform: 'translate(-50%, -50%)',
                   width: '100%',
+                  maxWidth: '310px',
                   bgcolor: '#00000066',
                   color: 'white',
                   textAlign: 'center',
@@ -72,40 +108,98 @@ const BookPage = () => {
                   borderRadius: 1,
                 }}
               >
-                <Typography variant="body1" fontWeight="bold">
+                <Typography variant="book1" fontWeight="bold">
                   Out of Stock
                 </Typography>
-                </Box>
+              </Box>
             )}
           </Box>
           {/* Buttons with toggleable styles and text */}
           <Box sx={{ display: 'flex', gap: 2, width: '70%', height: '7%', mt: 2.5 }}>
-            <Button
-              variant="contained"
-              startIcon={<ShoppingBagIcon />}
+            {/* Add to Bag Button with hover effect on wrapper, css changes made due to MUI class override */}
+            <Box
               sx={{
-                bgcolor: isAddedToBag ? 'white' : '#8B0000',
-                color: isAddedToBag ? '#8B0000' : 'white',
                 flex: 1,
-                '&:hover': { bgcolor: isAddedToBag ? '#f5f5f5' : '#6B0000' },
+                '&:hover': {
+                  '& .add-to-bag-button': {
+                    bgcolor: isAddedToBag ? '#f5f5f5' : '#6B0000',
+                    boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+                  },
+                },
               }}
-              onClick={() => setIsAddedToBag(true)}
             >
-              {isAddedToBag ? 'Added✓' : 'Add to Bag'}
-            </Button>
-            <Button
-              variant="contained"
-              startIcon={<FavoriteIcon />}
+              <Button
+                className="add-to-bag-button"
+                variant="contained"
+                startIcon={<ShoppingBagIcon />}
+                sx={{
+                  bgcolor: isAddedToBag ? 'white' : '#8B0000',
+                  color: isAddedToBag ? '#8B0000' : 'white',
+                  flex: 1,
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                  border: 'none',
+                  width: '100%',
+                  height: '50px',
+                  '&:hover': {
+                    bgcolor: isAddedToBag ? '#f5f5f5' : '#6B0000',
+                    boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+                  },
+                  '&.Mui-disabled': {
+                    bgcolor: 'white',
+                    color: '#8B0000',
+                    opacity: 1,
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                    border: 'none',
+                  },
+                }}
+                onClick={handleAddToBag}
+                disabled={book.quantity === 0 || isAddedToBag}
+              >
+                {isAddedToBag ? 'Added✓' : 'Add to Bag'}
+              </Button>
+            </Box>
+            {/* Wishlist Button */}
+            <Box
               sx={{
-                bgcolor: isAddedToWishlist ? 'white' : '#000000',
-                color: isAddedToWishlist ? '#000000' : 'white',
                 flex: 1,
-                '&:hover': { bgcolor: isAddedToWishlist ? '#f5f5f5' : '#333333' },
+                '&:hover': {
+                  '& .wishlist-button': {
+                    bgcolor: isAddedToWishlist ? '#f5f5f5' : '#333333',
+                    boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+                  },
+                },
               }}
-              onClick={() => setIsAddedToWishlist(true)}
             >
-              {isAddedToWishlist ? 'Added✓' : 'Wishlist'}
-            </Button>
+              <Button
+                className="wishlist-button"
+                variant="contained"
+                startIcon={<FavoriteIcon />}
+                sx={{
+                  bgcolor: isAddedToWishlist ? 'white' : '#000000',
+                  color: isAddedToWishlist ? '#000000' : 'white',
+                  flex: 1,
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                  border: 'none',
+                  width: '100%',
+                  height: '50px',
+                  '&:hover': {
+                    bgcolor: isAddedToWishlist ? '#f5f5f5' : '#333333',
+                    boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+                  },
+                  '&.Mui-disabled': {
+                    bgcolor: 'white',
+                    color: '#000000',
+                    opacity: 1,
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                    border: 'none',
+                  },
+                }}
+                onClick={handleAddToWishlist}
+                disabled={isAddedToWishlist}
+              >
+                {isAddedToWishlist ? 'Added✓' : 'Wishlist'}
+              </Button>
+            </Box>
           </Box>
         </Box>
 
