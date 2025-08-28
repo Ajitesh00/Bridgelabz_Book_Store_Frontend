@@ -1,0 +1,169 @@
+/* Mobile styles for screens smaller than 600px (Material-UI's 'sm' breakpoint) */
+@media (max-width: 600px) {
+  /* Loading state */
+  .book-page-loading {
+    height: 100% !important; /* Ensure full height */
+  }
+
+  /* Breadcrumb */
+  .book-page-breadcrumb {
+    margin-left: 16px !important; /* Reduce left margin */
+    margin-top: 16px !important; /* Reduce top margin */
+    justify-content: flex-start !important; /* Center breadcrumb */
+  }
+
+  .book-page-breadcrumb-home,
+  .book-page-breadcrumb-book {
+    font-size: 14px !important; /* Smaller font size */
+  }
+
+  /* Main layout */
+  .book-page-main {
+    flex-direction: column !important; /* Stack image and details vertically */
+    padding: 16px !important; /* Reduce padding */
+    margin-top: 0 !important; /* Adjust top margin */
+    max-width: 100% !important; /* Full width */
+  }
+
+  /* Image section */
+  .book-page-image-section {
+    flex: none !important; /* Remove fixed width */
+    width: 100% !important; /* Full width */
+    align-items: center; /* Center content */
+  }
+
+  .book-page-image {
+    width: 100% !important; /* Full width */
+    max-width: 250px !important; /* Smaller max width */
+    border-width: 1px !important; /* Thinner border */
+  }
+
+  .book-page-image img {
+    height: 350px !important; /* Smaller image height */
+  }
+
+  .book-page-out-of-stock {
+    max-width: 250px !important; /* Match image width */
+    padding: 8px !important; /* Reduce padding */
+    font-size: 14px !important; /* Smaller font */
+  }
+
+  /* Buttons section */
+  .book-page-buttons {
+    width: 100% !important; /* Full width */
+    gap: 8px !important; /* Reduce gap */
+    margin-top: 16px !important; /* Adjust margin */
+  }
+
+  .add-to-bag-button,
+  .wishlist-button {
+    height: 40px !important; /* Smaller button height */
+    font-size: 14px !important; /* Smaller font */
+  }
+
+  .book-page-add-to-bag-wrapper,
+  .book-page-wishlist-wrapper {
+    flex: 1; /* Equal width for buttons */
+  }
+
+  /* Book details section */
+  .book-page-details {
+    flex: none !important; /* Remove fixed flex */
+    width: 100% !important; /* Full width */
+  }
+
+  .book-page-title {
+    font-size: 24px !important; /* Smaller h4 variant */
+  }
+
+  .book-page-author {
+    font-size: 16px !important; /* Smaller subtitle1 */
+    margin-top: -8px !important; /* Adjust spacing */
+  }
+
+  .book-page-rating {
+    margin-top: 0 !important; /* Adjust spacing */
+  }
+
+  .book-page-rating-chip {
+    font-size: 12px !important; /* Smaller chip */
+    height: 24px !important; /* Smaller height */
+  }
+
+  .book-page-quantity {
+    font-size: 12px !important; /* Smaller body2 */
+  }
+
+  .book-page-price {
+    gap: 8px !important; /* Reduce gap */
+  }
+
+  .book-page-discount-price {
+    font-size: 20px !important; /* Smaller h5 */
+  }
+
+  .book-page-original-price {
+    font-size: 14px !important; /* Smaller body1 */
+  }
+
+  .book-page-details-heading,
+  .book-page-feedback-heading {
+    font-size: 16px !important; /* Smaller h6 */
+  }
+
+  .book-page-description {
+    font-size: 12px !important; /* Smaller body2 */
+  }
+
+  .book-page-feedback {
+    padding: 16px !important; /* Reduce padding */
+    gap: 8px !important; /* Reduce gap */
+  }
+
+  .book-page-textarea {
+    padding: 6px !important; /* Reduce padding */
+    font-size: 14px !important; /* Smaller font */
+  }
+
+  .book-page-submit-button {
+    padding: 6px 12px !important; /* Smaller button */
+    font-size: 14px !important; /* Smaller font */
+  }
+
+  .book-page-divider {
+    margin-top: 8px !important; /* Reduce margin */
+  }
+
+  /* Reviews section */
+  .book-page-reviews {
+    margin-top: 8px !important; /* Reduce margin */
+  }
+
+  .book-page-review {
+    margin-top: 8px !important; /* Reduce margin */
+  }
+
+  .book-page-review-header {
+    gap: 8px !important; /* Reduce gap */
+  }
+
+  .book-page-review-image {
+    height: 30px !important; /* Smaller image */
+    width: 30px !important;
+  }
+
+  .book-page-review-name {
+    font-size: 18px !important; /* Smaller h5 */
+  }
+
+  .book-page-review-stars {
+    height: 40px !important; /* Smaller stars */
+    width: 120px !important;
+    margin-left: 38px !important; /* Adjust margin */
+  }
+
+  .book-page-review-text {
+    font-size: 14px !important; /* Smaller body1 */
+    margin-left: 38px !important; /* Adjust margin */
+  }
+}

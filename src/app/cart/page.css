@@ -1,0 +1,223 @@
+/* Mobile styles for screens smaller than 600px (Material-UI's 'sm' breakpoint) */
+@media (max-width: 600px) {
+  /* Breadcrumb */
+  .cart-page-breadcrumb {
+    margin-left: 16px !important; /* Reduce left margin */
+    margin-top: 30px !important; /* Reduce top margin */
+    justify-content: flex-start !important; /* Center breadcrumb */
+  }
+
+  .cart-page-breadcrumb-home,
+  .cart-page-breadcrumb-cart {
+    font-size: 14px !important; /* Smaller font size */
+  }
+
+  /* Snackbar */
+  .cart-page-snackbar {
+    width: 90% !important; /* Slightly narrower for mobile */
+    bottom: 16px !important; /* Adjust position */
+  }
+
+  .cart-page-alert {
+    font-size: 14px !important; /* Smaller font */
+  }
+
+  /* Main container */
+  .cart-page-main {
+    padding: 16px !important; /* Reduce padding */
+    margin-top: 16px !important; /* Reduce margin */
+    max-width: 100% !important; /* Full width */
+  }
+
+  /* Cart section */
+  .cart-page-cart {
+    padding: 16px !important; /* Reduce padding */
+  }
+
+  .cart-page-cart-header {
+    flex-direction: row !important; /* Stack title and select */
+    align-items: center !important; /* Align left */
+    margin-bottom: 16px !important; /* Adjust spacing */
+  }
+
+  .cart-page-cart-title {
+    font-size: 20px !important; /* Smaller h5 */
+  }
+
+  .cart-page-address-select {
+    width: 50% !important; /* Full width */
+    max-width: none !important; /* Remove max-width */
+    height: 40px !important; /* Smaller height */
+    margin-top: 8px !important; /* Add spacing */
+  }
+
+  .cart-page-empty {
+    font-size: 14px !important; /* Smaller body1 */
+    text-align: center !important;
+  }
+
+  .cart-page-item {
+    padding: 0 8px !important; /* Reduce padding */
+  }
+
+  .cart-page-item-content {
+    flex-direction: row !important; /* Stack image and details */
+    gap: 8px !important; /* Reduce gap */
+  }
+
+  .cart-page-item-image {
+    width: 100px !important; /* Smaller image */
+    height: 150px !important;
+  }
+
+  .cart-page-item-details {
+    gap: 4px !important; /* Reduce gap */
+  }
+
+  .cart-page-item-title {
+    font-size: 16px !important; /* Smaller h6 */
+  }
+
+  .cart-page-item-author {
+    font-size: 12px !important; /* Smaller body2 */
+    margin-top: -4px !important; /* Adjust spacing */
+  }
+
+  .cart-page-item-price {
+    gap: 8px !important; /* Reduce gap */
+  }
+
+  .cart-page-item-discount-price {
+    font-size: 16px !important; /* Smaller h6 */
+  }
+
+  .cart-page-item-original-price {
+    font-size: 12px !important; /* Smaller body2 */
+  }
+
+  .cart-page-item-controls {
+    gap: 4px !important; /* Reduce gap */
+  }
+
+  .cart-page-item-decrement,
+  .cart-page-item-increment {
+    min-width: 24px !important; /* Smaller buttons */
+    padding: 2px !important;
+  }
+
+  .cart-page-item-quantity {
+    font-size: 14px !important; /* Smaller body1 */
+    min-width: 32px !important; /* Adjust width */
+  }
+
+  .cart-page-item-remove {
+    font-size: 14px !important; /* Smaller font */
+    margin-left: 8px !important; /* Adjust margin */
+  }
+
+  .cart-page-item-total {
+    gap: 8px !important; /* Reduce gap */
+  }
+
+  .cart-page-item-total-amount,
+  .cart-page-item-total-label {
+    font-size: 16px !important; /* Smaller h6 */
+  }
+
+  .cart-page-divider {
+    margin: 16px 0 !important; /* Reduce margin */
+  }
+
+  .cart-page-footer {
+    flex-direction: column !important; /* Stack total and button */
+    align-items: flex-start !important; /* Align left */
+    margin: 16px 8px !important; /* Adjust margin */
+  }
+
+  .cart-page-grand-total-amount {
+    font-size: 16px !important; /* Smaller h6 */
+  }
+
+  .cart-page-place-order {
+    width: 100% !important; /* Full width */
+    padding: 8px !important; /* Smaller padding */
+    font-size: 14px !important; /* Smaller font */
+    margin-top: 8px !important; /* Add spacing */
+  }
+
+  /* Customer details section */
+  .cart-page-customer {
+    padding: 16px !important; /* Reduce padding */
+    margin: 16px 0 !important; /* Adjust margin */
+  }
+
+  .cart-page-customer-title {
+    font-size: 20px !important; /* Smaller h5 */
+    margin-bottom: 16px !important; /* Adjust spacing */
+  }
+
+  .cart-page-customer-form {
+    padding: 0 8px !important; /* Reduce padding */
+  }
+
+  .cart-page-customer-name-mobile,
+  .cart-page-customer-address,
+  .cart-page-customer-city-state {
+    flex-direction: row !important; /* Stack fields */
+    gap: 8px !important; /* Reduce gap */
+  }
+
+  .cart-page-customer-fullname,
+  .cart-page-customer-mobile,
+  .cart-page-customer-address-field,
+  .cart-page-customer-city,
+  .cart-page-customer-state {
+    margin-bottom: 8px !important; /* Adjust spacing */
+  }
+
+  .cart-page-customer-fullname input,
+  .cart-page-customer-mobile input,
+  .cart-page-customer-address-field input,
+  .cart-page-customer-city input,
+  .cart-page-customer-state input {
+    font-size: 14px !important; /* Smaller font */
+  }
+
+  .cart-page-customer-address-type {
+    flex-direction: row !important; /* Stack radio buttons */
+    align-items: center !important; /* Align left */
+    margin-bottom: 8px !important; /* Adjust spacing */
+  }
+
+  .cart-page-customer-work-label,
+  .cart-page-customer-home-label {
+    font-size: 14px !important; /* Smaller h6 */
+    margin-right: 20px !important; /* Remove margin */
+  }
+
+  .cart-page-customer-radio-work,
+  .cart-page-customer-radio-home {
+    transform: scale(0.9) !important; /* Smaller radio buttons */
+  }
+
+  .cart-page-customer-footer {
+    margin: 16px 8px 0 !important; /* Adjust margin */
+  }
+
+  .cart-page-customer-continue {
+    width: 100% !important; /* Full width */
+    padding: 8px !important; /* Smaller padding */
+    font-size: 14px !important; /* Smaller font */
+  }
+
+  /* Order summary section */
+  .cart-page-summary {
+    padding: 16px !important; /* Reduce padding */
+    margin: 16px 0 !important; /* Adjust margin */
+  }
+
+  .cart-page-summary-title {
+    font-size: 20px !important; /* Smaller h5 */
+    margin-bottom: 16px !important; /* Adjust spacing */
+  }
+}

@@ -7,6 +7,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Search from '@mui/icons-material/Search';
 import { useRouter, useSearchParams } from 'next/navigation';
+// Import the external CSS file
+import './Header.css';
 
 // Header component for navigation and search
 export default function Header() {
@@ -46,10 +48,10 @@ export default function Header() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#8B0000', padding: '0 16px' }}>
-      <Toolbar sx={{ justifyContent: 'start', mx: 22 }}>
+    <AppBar position="static" sx={{ backgroundColor: '#8B0000', padding: '0 16px' }} className="header-appbar">
+      <Toolbar sx={{ justifyContent: 'start', mx: 22 }} className="header-toolbar">
         {/* Left: Logo */}
-        <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} className="header-logo">
           <img
             src="/logo.png"
             alt="Logo"
@@ -59,7 +61,7 @@ export default function Header() {
         </Box>
 
         {/* Center: Search Bar */}
-        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }} className="header-search">
           <TextField
             placeholder="Search books..."
             size="small"
@@ -85,23 +87,24 @@ export default function Header() {
                 </InputAdornment>
               ),
             }}
+            className="header-search-input"
           />
         </Box>
 
         {/* Right: Icons */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }} className="header-icons">
           <Tooltip title="Profile">
-            <IconButton color="inherit">
+            <IconButton color="inherit" className="header-profile-icon">
               <AccountCircleIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Cart">
-            <IconButton color="inherit" onClick={handleCartClick}>
+            <IconButton color="inherit" onClick={handleCartClick} className="header-cart-icon">
               <ShoppingCartIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Wishlist">
-            <IconButton color="inherit" onClick={handleWishlistClick}>
+            <IconButton color="inherit" onClick={handleWishlistClick} className="header-wishlist-icon">
               <FavoriteIcon />
             </IconButton>
           </Tooltip>

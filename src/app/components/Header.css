@@ -1,0 +1,52 @@
+@media (max-width: 600px) {
+  /* Adjust AppBar padding */
+  .header-appbar {
+    padding: 0 0; /* Reduce padding on mobile */
+  }
+
+  /* Adjust Toolbar layout and margins */
+  .header-toolbar {
+    margin: 8px; /* Reduce horizontal margins */
+    flex-direction: row; /* Stack elements vertically */
+    align-items: center; /* Ensure full-width alignment */ 
+  }
+
+  /* Logo section */
+  .header-logo {
+    justify-content: center;
+  }
+
+  .header-logo img {
+    height: 32px; /* Smaller logo on mobile */
+  }
+
+  /* Search bar section */
+  .header-search {
+    width: 180px !important; /* Full width for search bar */
+    margin-left: -100px;/* Add spacing below search bar */
+    margin-right: 15px;
+  }
+
+  .header-search-input {
+    width: 180px !important; /* Override Material-UI's 70% width */
+    font-size: 14px; /* Smaller font size */
+  }
+
+  /* Icons section */
+  .header-icons {
+    justify-content: center; /* Center icons */
+    gap: 8px; /* Reduce gap between icons */
+  }
+
+  .header-profile-icon,
+  .header-cart-icon,
+  .header-wishlist-icon {
+    padding: 6px; /* Smaller padding for icons */
+  }
+
+  .header-profile-icon svg,
+  .header-cart-icon svg,
+  .header-wishlist-icon svg {
+    font-size: 20px; /* Smaller icon size */
+  }
+}

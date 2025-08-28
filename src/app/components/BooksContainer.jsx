@@ -5,6 +5,8 @@ import { Box, Typography, MenuItem, Select, Grid, Pagination } from '@mui/materi
 import { useSearchParams } from 'next/navigation';
 import BookCard from './BookCard';
 import { fetchBooks } from '../services/book.service';
+// Import the external CSS file
+import './BooksContainer.css';
 
 const BooksContainer = () => {
   const [books, setBooks] = useState([]);
@@ -58,11 +60,18 @@ const BooksContainer = () => {
     window.history.replaceState({}, '', newUrl);
   }, [page, limit, sortBy, search]);
 
+  // Handle limit change
+  const handleLimitChange = (e) => {
+    const newLimit = parseInt(e.target.value);
+    setLimit(newLimit);
+    setPage(1); // Reset to first page on limit change
+  };
+
   return (
-    <Box sx={{ px: 8, mx: 4.5 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: -3 }}>
-        <Typography variant="h4" sx={{ marginLeft: 8 }}>
-          Books <Typography variant="caption">({totalBooks} Items)</Typography>
+    <Box sx={{ px: 8, mx: 4.5 }} className="books-container">
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: -3 }} className="books-header">
+        <Typography variant="h4" sx={{ marginLeft: 8 }} className="books-title">
+          Books <Typography variant="caption" className="books-total">({totalBooks} Items)</Typography>
         </Typography>
         <Select
           size="small"
@@ -72,6 +81,7 @@ const BooksContainer = () => {
             setPage(1); // Reset to first page on sort change
           }}
           sx={{ width: 200, marginRight: 8 }}
+          className="books-sort"
         >
           <MenuItem value="relevance">Sort by relevance</MenuItem>
           <MenuItem value="price_low_to_high">Price: Low to High</MenuItem>
@@ -80,22 +90,22 @@ const BooksContainer = () => {
         </Select>
       </Box>
 
-      <Grid container spacing={3} sx={{ justifyContent: 'center', mt: 10 }}>
+      <Grid container spacing={3} sx={{ justifyContent: 'center', mt: 10 }} className="books-grid">
         {books.length > 0 ? (
           books.map((book) => (
-            <Grid item xs={12} sm={6} md={3} key={book.id}>
+            <Grid item xs={12} sm={6} md={3} key={book.id} className="books-grid-item">
               <BookCard book={book} />
             </Grid>
           ))
         ) : (
-          <Typography variant="h6" sx={{ textAlign: 'center', width: '100%' }}>
+          <Typography variant="h6" sx={{ textAlign: 'center', width: '100%' }} className="books-no-results">
             No books found.
           </Typography>
         )}
       </Grid>
 
       {/* Pagination */}
-      <Box sx={{ mt: 8, display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ mt: 8, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }} className="books-pagination">
         <Pagination
           count={Math.ceil(totalBooks / limit)}
           page={page}
@@ -108,7 +118,23 @@ const BooksContainer = () => {
               color: '#fff',
             },
           }}
+          className="books-pagination-control"
         />
+        <Select
+          size="small"
+          value={limit}
+          color="#8B0000"
+          onChange={handleLimitChange}
+          sx={{ width: 100, marginLeft: 2 }}
+          className="books-limit"
+        >
+          <MenuItem value={4}>4</MenuItem>
+          <MenuItem value={8}>8</MenuItem>
+          <MenuItem value={16}>16</MenuItem>
+          <MenuItem value={24}>24</MenuItem>
+          <MenuItem value={32}>32</MenuItem>
+          <MenuItem value={48}>48</MenuItem>
+        </Select>
       </Box>
     </Box>
   );

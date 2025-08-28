@@ -10,6 +10,8 @@ import Header from '../components/Header';
 import { getCart, updateCart, removeFromCart } from '../services/cart.service';
 import { placeOrder } from '../services/order.service';
 import { addCustomer, getCustomers } from '../services/customer.service';
+// Import the external CSS file
+import './page.css';
 
 const CartPage = () => {
   const router = useRouter();
@@ -197,10 +199,10 @@ const CartPage = () => {
   return (
     <>
       <Header />
-      <Box sx={{ mt: 4, ml: 24.5, display: 'flex', justifyContent: 'start' }}>
+      <Box sx={{ mt: 4, ml: 24.5, display: 'flex', justifyContent: 'start' }} className="cart-page-breadcrumb">
         <Typography>
-          <Typography variant="body1" component="span" sx={{ color: 'gray' }}>Home/</Typography>
-          <Typography variant="body2" component="span" fontWeight="bold">My Cart</Typography>
+          <Typography variant="body1" component="span" sx={{ color: 'gray' }} className="cart-page-breadcrumb-home">Home/</Typography>
+          <Typography variant="body2" component="span" fontWeight="bold" className="cart-page-breadcrumb-cart">My Cart</Typography>
         </Typography>
       </Box>
       <Snackbar
@@ -208,16 +210,17 @@ const CartPage = () => {
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        className="cart-page-snackbar"
       >
-        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }} className="cart-page-alert">
           {snackbar.message}
         </Alert>
       </Snackbar>
-      <Box sx={{ maxWidth: '1200px', mx: 'auto', mt: 4, px: 4 }}>
+      <Box sx={{ maxWidth: '1200px', mx: 'auto', mt: 4, px: 4 }} className="cart-page-main">
         {/* MyCart Box */}
-        <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-            <Typography variant="h5" fontWeight="bold">
+        <Box sx={{ border: '1px solid #ccc', borderRadius: 2, p: 3 }} className="cart-page-cart">
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }} className="cart-page-cart-header">
+            <Typography variant="h5" fontWeight="bold" className="cart-page-cart-title">
               MyCart ({cartItems.length})
             </Typography>
             <Select
@@ -230,6 +233,7 @@ const CartPage = () => {
                   <LocationOnIcon />
                 </InputAdornment>
               }
+              className="cart-page-address-select"
             >
               {customerAddresses.length === 0 ? (
                 <MenuItem value="" disabled>
@@ -245,82 +249,86 @@ const CartPage = () => {
             </Select>
           </Box>
           {cartItems.length === 0 ? (
-            <Typography variant="body1" color="text.secondary" sx={{ textAlign: 'center' }}>
+            <Typography variant="body1" color="text.secondary" sx={{ textAlign: 'center' }} className="cart-page-empty">
               Your cart is empty
             </Typography>
           ) : (
             cartItems.map((item, index) => (
-              <Box key={item.cartItemId} sx={{ px: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 3 }}>
-                  <Box sx={{ width: 150, height: 200, border: '1px solid #ccc', borderRadius: 1, overflow: 'hidden' }}>
+              <Box key={item.cartItemId} sx={{ px: 3 }} className="cart-page-item">
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 3 }} className="cart-page-item-content">
+                  <Box sx={{ width: 150, height: 200, border: '1px solid #ccc', borderRadius: 1, overflow: 'hidden' }} className="cart-page-item-image">
                     <img
                       src={item.bookImage}
                       alt={item.bookName}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                   </Box>
-                  <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 1 }}>
-                    <Typography variant="h6" fontWeight="bold">
+                  <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 1 }} className="cart-page-item-details">
+                    <Typography variant="h6" fontWeight="bold" className="cart-page-item-title">
                       {item.bookName}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ mt: -1 }}>
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: -1 }} className="cart-page-item-author">
                       by {item.author}
                     </Typography>
-                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                      <Typography variant="h6" fontWeight="bold">
+                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }} className="cart-page-item-price">
+                      <Typography variant="h6" fontWeight="bold" className="cart-page-item-discount-price">
                         Rs. {item.discountPrice}
                       </Typography>
-                      <Typography variant="body2" fontWeight="bold" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
+                      <Typography variant="body2" fontWeight="bold" color="text.secondary" sx={{ textDecoration: 'line-through' }} className="cart-page-item-original-price">
                         Rs. {item.price}
                       </Typography>
                     </Box>
-                    <Box sx={{ display: 'flex', gap: 0, alignItems: 'center', mt: 0 }}>
+                    <Box sx={{ display: 'flex', gap: 0, alignItems: 'center', mt: 0 }} className="cart-page-item-controls">
                       <Button
                         variant="outlined"
                         sx={{ minWidth: 20, borderRadius: '50%', border: 'solid 1px gray', p: 0, color: 'gray' }}
                         onClick={() => handleDecrement(item.cartItemId, item.quantity)}
+                        className="cart-page-item-decrement"
                       >
                         <RemoveIcon />
                       </Button>
-                      <Typography variant="body1" sx={{ minWidth: 40, textAlign: 'center' }}>
+                      <Typography variant="body1" sx={{ minWidth: 40, textAlign: 'center' }} className="cart-page-item-quantity">
                         {item.quantity}
                       </Typography>
                       <Button
                         variant="outlined"
                         sx={{ minWidth: 20, borderRadius: '50%', border: 'solid 1px gray', p: 0, color: 'gray' }}
                         onClick={() => handleIncrement(item.cartItemId, item.quantity, item.bookId, item.availableQuantity)}
+                        className="cart-page-item-increment"
                       >
                         <AddIcon />
                       </Button>
                       <Button
                         sx={{ textTransform: 'none', color: '#8B0000', ml: 2 }}
                         onClick={() => handleRemove(item.cartItemId)}
+                        className="cart-page-item-remove"
                       >
                         Remove
                       </Button>
                     </Box>
-                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                      <Typography variant="h6" fontWeight="bold">Rs.{item.total}</Typography>
-                      <Typography variant="h6" color="gray">(Total)</Typography>
+                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }} className="cart-page-item-total">
+                      <Typography variant="h6" fontWeight="bold" className="cart-page-item-total-amount">Rs.{item.total}</Typography>
+                      <Typography variant="h6" color="gray" className="cart-page-item-total-label">(Total)</Typography>
                     </Box>
                   </Box>
                 </Box>
                 {index < cartItems.length - 1 && (
-                  <Box sx={{ height: '1px', backgroundColor: '#ccc', my: 5 }} />
+                  <Box sx={{ height: '1px', backgroundColor: '#ccc', my: 5 }} className="cart-page-divider" />
                 )}
               </Box>
             ))
           )}
           {cartItems.length > 0 && (
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 5, mx: 3 }}>
-              <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                <Typography variant="h6" fontWeight="bold">Grand Total: Rs.{grandTotal}</Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 5, mx: 3 }} className="cart-page-footer">
+              <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }} className="cart-page-grand-total">
+                <Typography variant="h6" fontWeight="bold" className="cart-page-grand-total-amount">Grand Total: Rs.{grandTotal}</Typography>
               </Box>
               <Button
                 variant="contained"
-                sx={{ bgcolor: '#1976d2' }}
+                sx={{ bgcolor: '#8B0000' }}
                 onClick={handlePlaceOrder}
                 disabled={!selectedAddress}
+                className="cart-page-place-order"
               >
                 Place Order
               </Button>
@@ -328,12 +336,12 @@ const CartPage = () => {
           )}
         </Box>
         {/* Customer Details Box */}
-        <Box sx={{ mt: 4, mb: 5, border: '1px solid #ccc', borderRadius: 2, pt: 4, pb: 5, px: 4 }}>
-          <Typography variant="h5" fontWeight="bold" sx={{ mb: 5 }}>
+        <Box sx={{ mt: 4, mb: 5, border: '1px solid #ccc', borderRadius: 2, pt: 4, pb: 5, px: 4 }} className="cart-page-customer">
+          <Typography variant="h5" fontWeight="bold" sx={{ mb: 5 }} className="cart-page-customer-title">
             Customer Details
           </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, px: 10 }}>
-            <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, px: 10 }} className="cart-page-customer-form">
+            <Box sx={{ display: 'flex', gap: 2 }} className="cart-page-customer-name-mobile">
               <TextField
                 label="Full Name"
                 name="fullName"
@@ -341,6 +349,7 @@ const CartPage = () => {
                 onChange={handleCustomerInputChange}
                 fullWidth
                 sx={{ mb: 2 }}
+                className="cart-page-customer-fullname"
               />
               <TextField
                 label="Mobile Number"
@@ -349,16 +358,18 @@ const CartPage = () => {
                 onChange={handleCustomerInputChange}
                 fullWidth
                 sx={{ mb: 2 }}
+                className="cart-page-customer-mobile"
               />
             </Box>
-            <Box display="flex" alignItems="center" sx={{ mb: 1 }}>
+            <Box display="flex" alignItems="center" sx={{ mb: 1 }} className="cart-page-customer-address-type">
               <Radio
                 sx={{
                   color: "#8B0000",
                   "&.Mui-checked": { color: "#8B0000" },
                 }}
+                className="cart-page-customer-radio-work"
               />
-              <Typography variant="h6" fontWeight="bold" sx={{ mr: 4 }}>
+              <Typography variant="h6" fontWeight="bold" sx={{ mr: 4 }} className="cart-page-customer-work-label">
                 1. Working Address
               </Typography>
               <Radio
@@ -366,12 +377,13 @@ const CartPage = () => {
                   color: "#8B0000",
                   "&.Mui-checked": { color: "#8B0000" },
                 }}
+                className="cart-page-customer-radio-home"
               />
-              <Typography variant="h6" fontWeight="bold">
+              <Typography variant="h6" fontWeight="bold" className="cart-page-customer-home-label">
                 2. Home Address
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', gap: 2 }}>
+            <Box sx={{ display: 'flex', gap: 2 }} className="cart-page-customer-address">
               <TextField
                 label="Address"
                 name="address"
@@ -379,9 +391,10 @@ const CartPage = () => {
                 onChange={handleCustomerInputChange}
                 fullWidth
                 sx={{ mb: 7 }}
+                className="cart-page-customer-address-field"
               />
             </Box>
-            <Box sx={{ display: 'flex', gap: 2 }}>
+            <Box sx={{ display: 'flex', gap: 2 }} className="cart-page-customer-city-state">
               <TextField
                 label="City/Town"
                 name="city"
@@ -389,6 +402,7 @@ const CartPage = () => {
                 onChange={handleCustomerInputChange}
                 fullWidth
                 sx={{ mb: 2 }}
+                className="cart-page-customer-city"
               />
               <TextField
                 label="State"
@@ -397,22 +411,24 @@ const CartPage = () => {
                 onChange={handleCustomerInputChange}
                 fullWidth
                 sx={{ mb: 2 }}
+                className="cart-page-customer-state"
               />
             </Box>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', mt: 5, mr: 3 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', mt: 5, mr: 3 }} className="cart-page-customer-footer">
             <Button
               variant="contained"
-              sx={{ bgcolor: '#1976d2' }}
+              sx={{ bgcolor: '#8B0000' }}
               onClick={handleSaveCustomer}
+              className="cart-page-customer-continue"
             >
               Continue
             </Button>
           </Box>
         </Box>
         {/* Order Summary Box */}
-        <Box sx={{ mt: 4, mb: 5, border: '1px solid #ccc', borderRadius: 2, pt: 4, pb: 5, px: 4 }}>
-          <Typography variant="h5" fontWeight="bold" sx={{ mb: 5 }}>
+        <Box sx={{ mt: 4, mb: 5, border: '1px solid #ccc', borderRadius: 2, pt: 4, pb: 5, px: 4 }} className="cart-page-summary">
+          <Typography variant="h5" fontWeight="bold" sx={{ mb: 5 }} className="cart-page-summary-title">
             Order Summary
           </Typography>
         </Box>
