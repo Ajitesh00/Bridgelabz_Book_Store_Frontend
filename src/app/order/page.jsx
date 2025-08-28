@@ -5,11 +5,19 @@ import { Box, Typography, Snackbar, Alert } from '@mui/material';
 import Header from '../components/Header';
 import { getOrders } from '../services/order.service';
 
+/**
+ * OrderPage component to display a list of user orders
+ * @returns {JSX.Element} The rendered OrderPage component
+ */
 const OrderPage = () => {
   const [orders, setOrders] = useState([]);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'error' });
 
-  // Fetch orders on mount
+  /**
+   * Fetches orders on component mount
+   * @async
+   * @returns {Promise<void>}
+   */
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -26,12 +34,18 @@ const OrderPage = () => {
     fetchOrders();
   }, []);
 
-  // Handle Snackbar close
+  /**
+   * Handles closing the snackbar
+   * @returns {void}
+   */
   const handleCloseSnackbar = () => {
     setSnackbar({ ...snackbar, open: false });
   };
 
-  // Group orders by orderId
+  /**
+   * Groups orders by orderId
+   * @returns {Object} An object with orders grouped by orderId
+   */
   const groupedOrders = orders.reduce((acc, order) => {
     const { orderId, createdAt } = order;
     if (!acc[orderId]) {

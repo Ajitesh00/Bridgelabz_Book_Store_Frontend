@@ -2,7 +2,12 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:4000/api/v1/wishlist';
 
-// Add book to wishlist
+/**
+ * Adds a book to the user's wishlist.
+ * @param {string} bookId - The ID of the book to add to the wishlist.
+ * @returns {Promise<Object>} A promise that resolves to the API response data.
+ * @throws {Error} If the request fails or the token is invalid/expired.
+ */
 export const addToWishlist = async (bookId) => {
   try {
     const response = await axios.post(
@@ -25,7 +30,11 @@ export const addToWishlist = async (bookId) => {
   }
 };
 
-// Fetch wishlist items with book details
+/**
+ * Fetches the user's wishlist with book details.
+ * @returns {Promise<Array>} A promise that resolves to an array of wishlist items or an empty array if the request fails.
+ * @throws {Error} If the token is invalid/expired (redirects to login).
+ */
 export const getWishlist = async () => {
   try {
     const response = await axios.get(API_BASE_URL, {
@@ -44,7 +53,12 @@ export const getWishlist = async () => {
   }
 };
 
-// Remove item from wishlist (using update endpoint as per backend)
+/**
+ * Removes an item from the user's wishlist.
+ * @param {string} wishlistItemId - The ID of the wishlist item to remove.
+ * @returns {Promise<Object>} A promise that resolves to the API response data.
+ * @throws {Error} If the request fails or the token is invalid/expired.
+ */
 export const removeFromWishlist = async (wishlistItemId) => {
   try {
     const response = await axios.put(`${API_BASE_URL}/${wishlistItemId}`, {}, {
@@ -63,7 +77,11 @@ export const removeFromWishlist = async (wishlistItemId) => {
   }
 };
 
-// Clear wishlist
+/**
+ * Clears all items from the user's wishlist.
+ * @returns {Promise<Object>} A promise that resolves to the API response data.
+ * @throws {Error} If the request fails or the token is invalid/expired.
+ */
 export const clearWishlist = async () => {
   try {
     const response = await axios.delete(API_BASE_URL, {

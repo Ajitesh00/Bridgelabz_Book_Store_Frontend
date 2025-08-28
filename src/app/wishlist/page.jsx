@@ -5,11 +5,18 @@ import { Box, Button, Typography, Snackbar, Alert } from '@mui/material';
 import Header from '../components/Header';
 import { getWishlist, removeFromWishlist, clearWishlist } from '../services/wishlist.service';
 
+/**
+ * WishlistPage component displays and manages the user's wishlist.
+ * @returns {JSX.Element} The rendered WishlistPage component.
+ */
 const WishlistPage = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'error' });
 
-  // Fetch wishlist items on mount
+  /**
+   * Fetches wishlist items when the component mounts.
+   * Updates the wishlistItems state with the fetched data or an empty array on error.
+   */
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -27,12 +34,17 @@ const WishlistPage = () => {
     fetchWishlist();
   }, []);
 
-  // Handle Snackbar close
+  /**
+   * Closes the snackbar notification.
+   */
   const handleCloseSnackbar = () => {
     setSnackbar({ ...snackbar, open: false });
   };
 
-  // Handle remove item from wishlist
+  /**
+   * Removes an item from the wishlist by its ID.
+   * @param {string} wishlistItemId - The ID of the wishlist item to remove.
+   */
   const handleRemove = async (wishlistItemId) => {
     try {
       await removeFromWishlist(wishlistItemId);
@@ -46,7 +58,9 @@ const WishlistPage = () => {
     }
   };
 
-  // Handle clear wishlist
+  /**
+   * Clears all items from the wishlist.
+   */
   const handleClear = async () => {
     try {
       await clearWishlist();

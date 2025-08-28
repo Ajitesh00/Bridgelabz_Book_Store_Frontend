@@ -4,31 +4,50 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardMedia, Typography, Box, Chip } from '@mui/material';
 
+/**
+ * BookCard component to display a single book's details in a card format
+ * @param {Object} props - Component props
+ * @param {Object} props.book - The book object containing details
+ * @param {string} props.book.id - The ID of the book
+ * @param {string} props.book.bookImage - The URL of the book image
+ * @param {string} props.book.bookName - The name of the book
+ * @param {string} props.book.author - The author of the book
+ * @param {number} props.book.quantity - The available quantity of the book
+ * @param {number} props.book.discountPrice - The discounted price of the book
+ * @param {number} props.book.price - The original price of the book
+ * @returns {JSX.Element} The rendered BookCard component
+ */
 const BookCard = ({ book }) => {
   const router = useRouter();
 
-  // Handle click on card to navigate to book details page
+  /**
+   * Handles click on the card to navigate to the book details page
+   * @returns {void}
+   */
   const handleCardClick = () => {
     router.push(`/book/${book.id}`);
   };
 
   return (
     <Card 
-    sx={{ 
-      width: 250, 
-      position: 'relative', 
-      boxShadow: 3, backgroundColor: '#f5f5f5', 
-      borderRadius: 2, cursor: 'pointer' 
+      sx={{ 
+        width: 250, 
+        position: 'relative', 
+        boxShadow: 3, 
+        backgroundColor: '#f5f5f5', 
+        borderRadius: 2, 
+        cursor: 'pointer' 
       }}
       onClick={handleCardClick}
     >
-      <CardMedia sx={{
-        width: '55%',
-        height: '200px',
-        marginTop: '25px',
-        marginX: 'auto',
-        border: '2px solid ',
-        borderRadius: 1,
+      <CardMedia 
+        sx={{
+          width: '55%',
+          height: '200px',
+          marginTop: '25px',
+          marginX: 'auto',
+          border: '2px solid ',
+          borderRadius: 1,
         }}
         component="img"
         height="280"

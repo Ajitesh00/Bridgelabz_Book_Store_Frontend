@@ -8,6 +8,10 @@ import { fetchBooks } from '../services/book.service';
 // Import the external CSS file
 import './BooksContainer.css';
 
+/**
+ * BooksContainer component to display a paginated and sortable list of books
+ * @returns {JSX.Element} The rendered BooksContainer component
+ */
 const BooksContainer = () => {
   const [books, setBooks] = useState([]);
   const [totalBooks, setTotalBooks] = useState(0);
@@ -17,7 +21,11 @@ const BooksContainer = () => {
   const [search, setSearch] = useState('');
   const searchParams = useSearchParams();
 
-  // Fetch books from API
+  /**
+   * Fetches books from the API based on pagination, sorting, and search parameters
+   * @async
+   * @returns {Promise<void>}
+   */
   const getBooks = async () => {
     try {
       const result = await fetchBooks(page, limit, sortBy, search);
@@ -30,7 +38,10 @@ const BooksContainer = () => {
     }
   };
 
-  // Sync state with URL parameters
+  /**
+   * Syncs state with URL parameters on component mount or when searchParams change
+   * @returns {void}
+   */
   useEffect(() => {
     const pageParam = parseInt(searchParams.get('page')) || 1;
     const limitParam = parseInt(searchParams.get('limit')) || 24;
@@ -43,12 +54,18 @@ const BooksContainer = () => {
     setSearch(searchParam);
   }, [searchParams]);
 
-  // Fetch books when parameters change
+  /**
+   * Fetches books when pagination, limit, sort, or search parameters change
+   * @returns {void}
+   */
   useEffect(() => {
     getBooks();
   }, [page, limit, sortBy, search]);
 
-  // Update URL when parameters change
+  /**
+   * Updates the URL with current pagination, limit, sort, and search parameters
+   * @returns {void}
+   */
   useEffect(() => {
     const params = new URLSearchParams();
     params.set('page', page.toString());
@@ -60,7 +77,11 @@ const BooksContainer = () => {
     window.history.replaceState({}, '', newUrl);
   }, [page, limit, sortBy, search]);
 
-  // Handle limit change
+  /**
+   * Handles changing the number of books displayed per page
+   * @param {Object} e - The event object
+   * @returns {void}
+   */
   const handleLimitChange = (e) => {
     const newLimit = parseInt(e.target.value);
     setLimit(newLimit);

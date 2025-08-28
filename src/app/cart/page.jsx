@@ -13,6 +13,10 @@ import { addCustomer, getCustomers } from '../services/customer.service';
 // Import the external CSS file
 import './page.css';
 
+/**
+ * CartPage component to display and manage the shopping cart
+ * @returns {JSX.Element} The rendered CartPage component
+ */
 const CartPage = () => {
   const router = useRouter();
   const [cartItems, setCartItems] = useState([]);
@@ -27,7 +31,11 @@ const CartPage = () => {
     state: ''
   });
 
-  // Fetch cart items and customer addresses on mount
+  /**
+   * Fetches cart items and customer addresses on component mount
+   * @async
+   * @returns {Promise<void>}
+   */
   useEffect(() => {
     const fetchCart = async () => {
       try {
@@ -62,12 +70,23 @@ const CartPage = () => {
     fetchCustomers();
   }, []);
 
-  // Handle Snackbar close
+  /**
+   * Handles closing the snackbar
+   * @returns {void}
+   */
   const handleCloseSnackbar = () => {
     setSnackbar({ ...snackbar, open: false });
   };
 
-  // Handle quantity increment
+  /**
+   * Handles incrementing the quantity of a cart item
+   * @async
+   * @param {string} cartItemId - The ID of the cart item
+   * @param {number} currentQuantity - The current quantity of the item
+   * @param {string} bookId - The ID of the book
+   * @param {number} availableQuantity - The available quantity of the book
+   * @returns {Promise<void>}
+   */
   const handleIncrement = async (cartItemId, currentQuantity, bookId, availableQuantity) => {
     if (currentQuantity >= availableQuantity) {
       setSnackbar({ open: true, message: `Only ${availableQuantity} books available`, severity: 'error' });
@@ -90,7 +109,13 @@ const CartPage = () => {
     }
   };
 
-  // Handle quantity decrement
+  /**
+   * Handles decrementing the quantity of a cart item
+   * @async
+   * @param {string} cartItemId - The ID of the cart item
+   * @param {number} currentQuantity - The current quantity of the item
+   * @returns {Promise<void>}
+   */
   const handleDecrement = async (cartItemId, currentQuantity) => {
     if (currentQuantity <= 1) {
       setSnackbar({ open: true, message: 'Quantity cannot be less than 1', severity: 'error' });
@@ -113,7 +138,12 @@ const CartPage = () => {
     }
   };
 
-  // Handle remove item from cart
+  /**
+   * Handles removing an item from the cart
+   * @async
+   * @param {string} cartItemId - The ID of the cart item to remove
+   * @returns {Promise<void>}
+   */
   const handleRemove = async (cartItemId) => {
     try {
       await removeFromCart(cartItemId);
@@ -127,7 +157,11 @@ const CartPage = () => {
     }
   };
 
-  // Handle place order
+  /**
+   * Handles placing an order
+   * @async
+   * @returns {Promise<void>}
+   */
   const handlePlaceOrder = async () => {
     try {
       const response = await placeOrder();
@@ -150,13 +184,21 @@ const CartPage = () => {
     }
   };
 
-  // Handle customer details input change
+  /**
+   * Handles changes to customer details input fields
+   * @param {Object} e - The event object
+   * @returns {void}
+   */
   const handleCustomerInputChange = (e) => {
     const { name, value } = e.target;
     setCustomerDetails({ ...customerDetails, [name]: value });
   };
 
-  // Handle save customer details
+  /**
+   * Handles saving customer details
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleSaveCustomer = async () => {
     try {
       const { fullName, mobileNumber, address, city, state } = customerDetails;

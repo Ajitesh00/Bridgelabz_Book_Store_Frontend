@@ -10,19 +10,28 @@ import { useRouter, useSearchParams } from 'next/navigation';
 // Import the external CSS file
 import './Header.css';
 
-// Header component for navigation and search
+/**
+ * Header component for navigation and search
+ * @returns {JSX.Element} The rendered Header component
+ */
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Sync searchQuery with URL on initial load
+  /**
+   * Syncs searchQuery state with URL search parameter on initial load
+   * @returns {void}
+   */
   useEffect(() => {
     const search = searchParams.get('search') || '';
     setSearchQuery(search);
   }, [searchParams]);
 
-  // Handle search action
+  /**
+   * Handles search action and updates URL with search query
+   * @returns {void}
+   */
   const handleSearch = () => {
     const trimmed = searchQuery.trim();
     const params = new URLSearchParams(searchParams.toString());
@@ -37,12 +46,18 @@ export default function Header() {
     router.push(`/dashboard?${params.toString()}`);
   };
 
-  // Navigate to cart page
+  /**
+   * Navigates to the cart page
+   * @returns {void}
+   */
   const handleCartClick = () => {
     router.push('/cart');
   };
 
-  // Navigate to wishlist page
+  /**
+   * Navigates to the wishlist page
+   * @returns {void}
+   */
   const handleWishlistClick = () => {
     router.push('/wishlist');
   };

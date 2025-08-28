@@ -13,7 +13,10 @@ import Header from '../../components/Header';
 // Import the external CSS file
 import './page.css';
 
-// BookPage component to display details of a single book
+/**
+ * BookPage component to display details of a single book
+ * @returns {JSX.Element} The rendered BookPage component
+ */
 const BookPage = () => {
   // State to hold book data
   const [book, setBook] = useState(null);
@@ -24,7 +27,11 @@ const BookPage = () => {
   const params = useParams();
   const bookId = params.id;
 
-  // Fetch book data and check cart/wishlist on component mount
+  /**
+   * Fetches book data and checks cart/wishlist status on component mount
+   * @async
+   * @returns {Promise<void>}
+   */
   useEffect(() => {
     const fetchData = async () => {
       // Fetch book data
@@ -44,7 +51,11 @@ const BookPage = () => {
     fetchData();
   }, [bookId]);
 
-  // Handle Add to Bag button click
+  /**
+   * Handles adding a book to the cart
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleAddToBag = async () => {
     if (isAddedToBag) return; // Prevent adding if already in cart
     try {
@@ -55,7 +66,11 @@ const BookPage = () => {
     }
   };
 
-  // Handle Add to Wishlist button click
+  /**
+   * Handles adding a book to the wishlist
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleAddToWishlist = async () => {
     if (isAddedToWishlist) return; // Prevent adding if already in wishlist
     try {
